@@ -421,17 +421,6 @@ module.exports = function (webpackEnv) {
                     },
                   ],
                 ],
-                plugins: [
-                  [
-                    require.resolve('babel-plugin-import'),
-                    {
-                      libraryName: "antd",
-                      libraryDirectory: "es",
-                      style: true
-                    },
-
-                  ]
-                ],
                 // @remove-on-eject-begin
                 babelrc: false,
                 configFile: false,
@@ -462,6 +451,14 @@ module.exports = function (webpackEnv) {
                             '@svgr/webpack?-svgo,+titleProp,+ref![path]',
                         },
                       },
+                    },
+                  ],
+                  [
+                    require.resolve('babel-plugin-import'),
+                    {
+                      libraryName: 'antd',
+                      libraryDirectory: 'es',
+                      style: true,
                     },
                   ],
                   isEnvDevelopment &&
