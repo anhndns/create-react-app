@@ -73,6 +73,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessRegex = /\.less$/;
+const lessModuleRegex = /\.module\.less$/;
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -419,6 +421,17 @@ module.exports = function (webpackEnv) {
                     },
                   ],
                 ],
+                plugins: [
+                  [
+                    require.resolve('babel-plugin-import'),
+                    {
+                      libraryName: "antd",
+                      libraryDirectory: "es",
+                      style: true
+                    },
+
+                  ]
+                ],
                 // @remove-on-eject-begin
                 babelrc: false,
                 configFile: false,
@@ -575,6 +588,43 @@ module.exports = function (webpackEnv) {
                   },
                 },
                 'sass-loader'
+              ),
+            },
+            {
+              test: lessRegex,
+              exclude: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 3,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
+                },
+                'less-loader',
+                {
+                  modifyVars: require(paths.lessCustomVariables),
+                  javascriptEnabled: true,
+                }
+              ),
+              sideEffects: true,
+            },
+            {
+              test: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 3,
+                  sourceMap: isEnvProduction
+                    ? shouldUseSourceMap
+                    : isEnvDevelopment,
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent,
+                  },
+                },
+                'less-loader',
+                {
+                  modifyVars: require(paths.lessCustomVariables),
+                  javascriptEnabled: true,
+                }
               ),
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
