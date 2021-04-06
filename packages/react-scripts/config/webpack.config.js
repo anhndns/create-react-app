@@ -598,9 +598,6 @@ module.exports = function (webpackEnv) {
                   sourceMap: isEnvProduction
                     ? shouldUseSourceMap
                     : isEnvDevelopment,
-                  modules: {
-                    exportGlobals: true,
-                  },
                 },
                 'less-loader',
                 {
@@ -619,7 +616,6 @@ module.exports = function (webpackEnv) {
                     ? shouldUseSourceMap
                     : isEnvDevelopment,
                   modules: {
-                    exportGlobals: true,
                     getLocalIdent: getCSSModuleLocalIdent,
                   },
                 },
